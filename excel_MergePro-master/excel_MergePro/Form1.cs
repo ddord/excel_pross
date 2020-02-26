@@ -65,7 +65,7 @@ namespace excel_MergePro
 
             Excel.Worksheet excelSheet = null;
 
-            DataTable dtResult = new DataTable();
+            
 
             
             DataTable dt1 = new DataTable();
@@ -75,28 +75,45 @@ namespace excel_MergePro
             DataTable dt2 = new DataTable();
             dt2 = ReadAsDataTable(txb_OpenFIle2.Text);
 
-            var result = from dataRows1 in dt1.AsEnumerable()
-                         join dataRows2 in dt2.AsEnumerable()
-                         on dataRows1.Field<string>("ID") equals dataRows2.Field<string>("ID") into lj
-                         from r in lj.DefaultIfEmpty()
+            DataTable dtResult = dt1.Clone();
+
+
+            var dt2Columns = dt2.Columns.OfType<DataColumn>().Select(dc => new DataColumn(dc.ColumnName, dc.DataType, dc.Expression, dc.ColumnMapping));
+
+
+            var dt2FinalColumns = from dc in dt2Columns.AsEnumerable()
+                                  where !dtResult.Columns.Contains(dc.ColumnName)
+                                  select dc;
+
+            dtResult.Columns.AddRange(dt2FinalColumns.ToArray());
+
+            var result = from t1 in dt1.AsEnumerable()
+                         join t2 in dt2.AsEnumerable() on t1.Field<string>("ID") equals t2.Field<string>("ID")
+                         select t1.ItemArray.Concat(t2.ItemArray.Where(r2 => t1.ItemArray.Contains(r2) == false)).ToArray();
+
+                         //select t1.ItemArray.Concat((subRight == null) ? (dt2.NewRow().ItemArray) : subRight.ItemArray).ToArray();
+                         /*
                          select dtResult.LoadDataRow(new object[]
                          {
-                            dataRows1.Field<string>("ID"),
-                            dataRows1.Field<string>("관리번호"),
-                            dataRows1.Field<string>("일련번호"),
-                            dataRows1.Field<string>("성명")
-                            //dataRows2.Field<string>("시도명"),
-                            //dataRows1.Field<string>("시군구명"),
-                            //dataRows1.Field<string>("법정읍면동명"),
-                            //dataRows1.Field<string>("지번본번(번지)"),
-                            //dataRows1.Field<string>("비번부번(호)"),
-                            //dataRows1.Field<string>("대표여부"),
-                          }, false);
+                             subRight.Field<string>("ID"),
+                             subRight.Field<string>("관리번호"),
+                             subRight.Field<string>("일련번호"),
+                             subRight.Field<string>("성명"),
+                             subRight.Field<string>("시도명"),
+                             subRight.Field<string>("시군구명"),
+                             subRight.Field<string>("법정읍면동명"),
+                             subRight.Field<string>("지번본번(번지)"),
+                             subRight.Field<string>("비번부번(호)"),
+                             subRight.Field<string>("대표여부"),
+                         }, false);
+                         */
+
+            foreach (object[] values in result)
+                dtResult.Rows.Add(values);
 
             ClosedXML.Excel.XLWorkbook wbook = new ClosedXML.Excel.XLWorkbook();
-            result.CopyToDataTable();
             wbook.Worksheets.Add(dtResult, "tab1");
-
+            
             wbook.SaveAs("D:\\03_dor_works\\LocalApp\\001\\test_data\\test11.xlsx");
 
 

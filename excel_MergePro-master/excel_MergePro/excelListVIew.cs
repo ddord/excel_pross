@@ -10,11 +10,25 @@ using System.Windows.Forms;
 
 namespace excel_MergePro
 {
-    public partial class excelListVIew : UserControl
+    public partial class excelListView : UserControl
     {
-        public excelListVIew()
+        public DataTable ExcelListDT = new DataTable();
+
+        public excelListView()
         {
             InitializeComponent();
+        }
+
+
+
+        public void excelGridViewDraw()
+        {
+
+        }
+
+        private void excelListView_Load(object sender, EventArgs e)
+        {
+            dgvExcelList.DataSource = ExcelListDT;
         }
     }
 }

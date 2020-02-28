@@ -15,23 +15,37 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.IO;
+using ExcelDataReader;
 
 namespace excel_MergePro
 {
     public partial class Form1 : Form
     {
-        private int countFile = 0;
+        private int fileCount = 0; int drawPointX = 0; int drawPointY = 0;
         private Object oDocument;
-        private Excel.Application excelApp = new Excel.Application();
+        private Excel.Application excelApp = null;
         private Excel.Workbook exlWbMerge1 = null;
         private Excel.Workbook exlWb = null;
         private Excel.Worksheet exlSheet = null;
-        private string s_filename = "";
+        private string s_filepath = "";
+        private DataSet dataGridViewsDataSet = new DataSet();
+        private List<DataGridView> dataGridViewsList = new List<DataGridView>();
 
+
+        public DataSet MainFormDataGridViesDataSet { get { return dataGridViewsDataSet; } }
 
         public Form1()
         {
             InitializeComponent();
+            dataGridViewsList = new List<DataGridView>();
+            /*
+            dataGridViewsDataSet = new DataSet();
+            for (int i = 1; i < 9; i++)
+            {
+                dataGridViewsDataSet.Tables.Add(string.Format("dgvE_{0}", i.ToString().PadLeft(2,'0')));
+            }
+            */
         }
 
         private void btnOpenFileClick(object sender, EventArgs args)
@@ -39,27 +53,53 @@ namespace excel_MergePro
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Excel File(*.xlsx)|*.xlsx|Text File(*.txt)|*.txt|CSV File(*.csv)|*.csv";
 
+            if (fileCount == 9)
+            {
+                drawPointX = 0; drawPointY = 0;
+                MessageBox.Show("파일을 추가 할 수 없습니다. 파일 목록을 삭제 하시기 바랍니다.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            excelListView excelListV = new excelListView();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                countFile += 1;
-
-                Button btnClickObject = new Button();
-                btnClickObject = sender as Button;
-
-                switch (countFile)
+                fileCount += 1;
+                /*
+                switch (fileCount)
                 {
                     case 1:
                         txb_OpenFIle1.Text = openFileDialog.FileName;
-                        s_filename = openFileDialog.FileName;
+                        s_filepath = openFileDialog.FileName;
                         break;
                     case 2:
                         txb_OpenFIle2.Text = openFileDialog.FileName;
-
-                        countFile = 0;
+                        s_filename = openFileDialog.FileName;
+                        fileCount = 0;
                         break;
                 }
+                */
+                s_filepath = openFileDialog.FileName;
+                string s_filename = System.IO.Path.GetFileName(s_filepath);
+
+                excelFileBindings(s_filepath, fileCount, excelListV);
+
+                if (!clbAddFileList.Items.Contains(s_filename))
+                {
+                    clbAddFileList.Items.Add(System.IO.Path.GetFileName(s_filename));
+                    if ((drawPointX % 1400) == 0 && (drawPointX != 0))
+                    { drawPointX = 0; drawPointY += 300; }
+                    else if ((drawPointY % 600) == 0 && (drawPointY != 0))
+                        drawPointY = 0;
+                    excelListV.Location = new Point(drawPointX, drawPointY);
+                    pnlMain.Controls.Add(excelListV);
+                    excelListV.Show();
+                    drawPointX += 350;
+                }                   
+                else
+                    MessageBox.Show("같은 이름에 파일명이 존재합니다.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
             }
 
+            
             /*
             object missing = System.Reflection.Missing.Value;
             excelApp.Visible = false;
@@ -68,7 +108,7 @@ namespace excel_MergePro
 
             exlSheet = (Excel.Worksheet)exlWbMerge1.ActiveSheet;
             
-            if (countFile == 1)
+            if (fileCount == 1)
             {
                 Object refmissing = System.Reflection.Missing.Value;
                 oDocument = null;
@@ -103,146 +143,194 @@ namespace excel_MergePro
         {
 
         }
+
+        private void excelFileBindings(string filepath, int fileCount, excelListView excelListV)
+        {
+
+            DataSet dataSetExcel = null;
+            excelApp = new Excel.Application();
+
+            using (var stream = File.Open(filepath, FileMode.Open, FileAccess.Read))
+            {
+                using (var excelreader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    dataSetExcel = excelreader.AsDataSet(new ExcelDataSetConfiguration()
+                    {
+                        ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                        {
+                            UseHeaderRow = true
+                        }
+                    });
+
+                    DataTable temp50RowDT = new DataTable();
+                    int limitCount = -1;
+                    foreach (DataRow dataRow in dataSetExcel.Tables[0].Rows)
+                    {
+                        limitCount += 1;
+
+                        DataRow emDT = dataSetExcel.Tables[0].NewRow();
+                        //emDT.ItemArray = dataRow.ItemArray;
+                        temp50RowDT.ImportRow(dataRow);
+                        temp50RowDT.Rows[limitCount].ItemArray = dataRow.ItemArray;
+
+                        if (limitCount >= 50)
+                            break;
+                    }
+                    /*
+                    for (int i = 0; i < 50; i++)
+                    {
+                        temp50RowDT.ImportRow(dataSetExcel.Tables[0].Rows[i]);
+                    }
+                    */
+                    temp50RowDT.TableName = string.Format("dgvE_{0}", fileCount.ToString().PadLeft(2, '0'));
+                    dataGridViewsDataSet.Tables.Add(temp50RowDT);
+
+                    excelListV.ExcelListDT = dataGridViewsDataSet.Tables[fileCount - 1];
+                }
+            }
+
+        }
+
         /*
-public void simpleMergeExcel()
-{
+        public void simpleMergeExcel()
+        {
 
-   DataTable dt1 = new DataTable();
-   dt1 = ReadAsDataTable(txb_OpenFIle1.Text);
-
-
-   DataTable dt2 = new DataTable();
-   dt2 = ReadAsDataTable(txb_OpenFIle2.Text);
-
-   DataTable dtResult = dt1.Clone();
-
-   var dt2Columns = dt2.Columns.OfType<DataColumn>().Select(dc => new DataColumn(dc.ColumnName, dc.DataType, dc.Expression, dc.ColumnMapping));
+           DataTable dt1 = new DataTable();
+           dt1 = ReadAsDataTable(txb_OpenFIle1.Text);
 
 
-   var dt2FinalColumns = from dc in dt2Columns.AsEnumerable()
-                         where !dtResult.Columns.Contains(dc.ColumnName)
-                         select dc;
+           DataTable dt2 = new DataTable();
+           dt2 = ReadAsDataTable(txb_OpenFIle2.Text);
 
-   dtResult.Columns.AddRange(dt2FinalColumns.ToArray());
+           DataTable dtResult = dt1.Clone();
 
-   var result = from t1 in dt1.AsEnumerable()
-                join t2 in dt2.AsEnumerable() on t1.Field<string>("ID") equals t2.Field<string>("ID")
-                select t1.ItemArray.Concat(t2.ItemArray.Where(r2 => t1.ItemArray.Contains(r2) == false)).ToArray();
+           var dt2Columns = dt2.Columns.OfType<DataColumn>().Select(dc => new DataColumn(dc.ColumnName, dc.DataType, dc.Expression, dc.ColumnMapping));
 
-   foreach (object[] values in result)
-       dtResult.Rows.Add(values);
 
-   ClosedXML.Excel.XLWorkbook wbook = new ClosedXML.Excel.XLWorkbook();
-   wbook.Worksheets.Add(dtResult, "tab1");
+           var dt2FinalColumns = from dc in dt2Columns.AsEnumerable()
+                                 where !dtResult.Columns.Contains(dc.ColumnName)
+                                 select dc;
 
-   wbook.SaveAs("D:\\03_dor_works\\LocalApp\\001\\test_data\\test11.xlsx");
-}
+           dtResult.Columns.AddRange(dt2FinalColumns.ToArray());
 
-public static DataTable ReadAsDataTable(string fileName)
-{
-   DataTable dataTable = new DataTable();
-   using (SpreadsheetDocument spreadSheetDocument = SpreadsheetDocument.Open(fileName, false))
-   {
-       WorkbookPart workbookPart = spreadSheetDocument.WorkbookPart;
-       IEnumerable<Sheet> sheets = spreadSheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>();
-       string relationshipId = sheets.First().Id.Value;
-       WorksheetPart worksheetPart = (WorksheetPart)spreadSheetDocument.WorkbookPart.GetPartById(relationshipId);
-       Worksheet workSheet = worksheetPart.Worksheet;
-       SheetData sheetData = workSheet.GetFirstChild<SheetData>();
-       IEnumerable<Row> rows = sheetData.Descendants<Row>();
+           var result = from t1 in dt1.AsEnumerable()
+                        join t2 in dt2.AsEnumerable() on t1.Field<string>("ID") equals t2.Field<string>("ID")
+                        select t1.ItemArray.Concat(t2.ItemArray.Where(r2 => t1.ItemArray.Contains(r2) == false)).ToArray();
 
-       foreach (Cell cell in rows.ElementAt(0))
-       {
-           dataTable.Columns.Add(GetCellValue(spreadSheetDocument, cell));
-       }
+           foreach (object[] values in result)
+               dtResult.Rows.Add(values);
 
-       foreach (Row row in rows)
-       {
-           DataRow dataRow = dataTable.NewRow();
-           for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+           ClosedXML.Excel.XLWorkbook wbook = new ClosedXML.Excel.XLWorkbook();
+           wbook.Worksheets.Add(dtResult, "tab1");
+
+           wbook.SaveAs("D:\\03_dor_works\\LocalApp\\001\\test_data\\test11.xlsx");
+        }
+
+        public static DataTable ReadAsDataTable(string fileName)
+        {
+           DataTable dataTable = new DataTable();
+           using (SpreadsheetDocument spreadSheetDocument = SpreadsheetDocument.Open(fileName, false))
            {
-               dataRow[i] = GetCellValue(spreadSheetDocument, row.Descendants<Cell>().ElementAt(i));
+               WorkbookPart workbookPart = spreadSheetDocument.WorkbookPart;
+               IEnumerable<Sheet> sheets = spreadSheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>();
+               string relationshipId = sheets.First().Id.Value;
+               WorksheetPart worksheetPart = (WorksheetPart)spreadSheetDocument.WorkbookPart.GetPartById(relationshipId);
+               Worksheet workSheet = worksheetPart.Worksheet;
+               SheetData sheetData = workSheet.GetFirstChild<SheetData>();
+               IEnumerable<Row> rows = sheetData.Descendants<Row>();
+
+               foreach (Cell cell in rows.ElementAt(0))
+               {
+                   dataTable.Columns.Add(GetCellValue(spreadSheetDocument, cell));
+               }
+
+               foreach (Row row in rows)
+               {
+                   DataRow dataRow = dataTable.NewRow();
+                   for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+                   {
+                       dataRow[i] = GetCellValue(spreadSheetDocument, row.Descendants<Cell>().ElementAt(i));
+                   }
+
+                   dataTable.Rows.Add(dataRow);
+               }
+
            }
+           dataTable.Rows.RemoveAt(0);
 
-           dataTable.Rows.Add(dataRow);
-       }
+           return dataTable;
+        }
 
-   }
-   dataTable.Rows.RemoveAt(0);
+        private static string GetCellValue(SpreadsheetDocument document, Cell cell)
+        {
+           SharedStringTablePart stringTablePart = document.WorkbookPart.SharedStringTablePart;
+           string value = cell.CellValue.InnerXml;
 
-   return dataTable;
-}
-
-private static string GetCellValue(SpreadsheetDocument document, Cell cell)
-{
-   SharedStringTablePart stringTablePart = document.WorkbookPart.SharedStringTablePart;
-   string value = cell.CellValue.InnerXml;
-
-   if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
-   {
-       return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
-   }
-   else
-   {
-       return value;
-   }
-}
-
-private void webFile1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
-{
-   // Creation of the workbook object
-   exlWb = RetrieveWorkbook(s_filename);
-   if (exlWb == null) return;
-   // Create the Excel.Application
-   excelApp = (Excel.Application)exlWb.Application;
-}
-
-[DllImport("ole32.dll")]
-static extern int GetRunningObjectTable
-(uint reserved, out IRunningObjectTable pprot);
-[DllImport("ole32.dll")] static extern int CreateBindCtx(uint reserved, out IBindCtx pctx);
-
-public Excel.Workbook RetrieveWorkbook(string xlfile)
-{
-   IRunningObjectTable prot = null;
-   IEnumMoniker pmonkenum = null;
-   try
-   {
-       IntPtr pfetched = IntPtr.Zero;
-       // Query the running object table (ROT)
-       if (GetRunningObjectTable(0, out prot) != 0 || prot == null) return null;
-       prot.EnumRunning(out pmonkenum); pmonkenum.Reset();
-       IMoniker[] monikers = new IMoniker[1];
-       while (pmonkenum.Next(1, monikers, pfetched) == 0)
-       {
-           IBindCtx pctx; string filepathname;
-           CreateBindCtx(0, out pctx);
-           // Get the name of the file
-           monikers[0].GetDisplayName(pctx, null, out filepathname);
-           // Clean up
-           Marshal.ReleaseComObject(pctx);
-           // Search for the workbook
-           if (filepathname.IndexOf(xlfile) != -1)
+           if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
            {
-               object roval;
-               // Get a handle on the workbook
-               prot.GetObject(monikers[0], out roval);
-               return roval as Excel.Workbook;
+               return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
            }
-       }
-   }
-   catch
-   {
-       return null;
-   }
-   finally
-   {
-       // Clean up
-       if (prot != null) Marshal.ReleaseComObject(prot);
-       if (pmonkenum != null) Marshal.ReleaseComObject(pmonkenum);
-   }
-   return null;
-}
-*/
+           else
+           {
+               return value;
+           }
+        }
+
+        private void webFile1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+           // Creation of the workbook object
+           exlWb = RetrieveWorkbook(s_filepath);
+           if (exlWb == null) return;
+           // Create the Excel.Application
+           excelApp = (Excel.Application)exlWb.Application;
+        }
+
+        [DllImport("ole32.dll")]
+        static extern int GetRunningObjectTable
+        (uint reserved, out IRunningObjectTable pprot);
+        [DllImport("ole32.dll")] static extern int CreateBindCtx(uint reserved, out IBindCtx pctx);
+
+        public Excel.Workbook RetrieveWorkbook(string xlfile)
+        {
+           IRunningObjectTable prot = null;
+           IEnumMoniker pmonkenum = null;
+           try
+           {
+               IntPtr pfetched = IntPtr.Zero;
+               // Query the running object table (ROT)
+               if (GetRunningObjectTable(0, out prot) != 0 || prot == null) return null;
+               prot.EnumRunning(out pmonkenum); pmonkenum.Reset();
+               IMoniker[] monikers = new IMoniker[1];
+               while (pmonkenum.Next(1, monikers, pfetched) == 0)
+               {
+                   IBindCtx pctx; string filepathname;
+                   CreateBindCtx(0, out pctx);
+                   // Get the name of the file
+                   monikers[0].GetDisplayName(pctx, null, out filepathname);
+                   // Clean up
+                   Marshal.ReleaseComObject(pctx);
+                   // Search for the workbook
+                   if (filepathname.IndexOf(xlfile) != -1)
+                   {
+                       object roval;
+                       // Get a handle on the workbook
+                       prot.GetObject(monikers[0], out roval);
+                       return roval as Excel.Workbook;
+                   }
+               }
+           }
+           catch
+           {
+               return null;
+           }
+           finally
+           {
+               // Clean up
+               if (prot != null) Marshal.ReleaseComObject(prot);
+               if (pmonkenum != null) Marshal.ReleaseComObject(pmonkenum);
+           }
+           return null;
+        }
+        */
     }
 }

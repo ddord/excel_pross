@@ -167,12 +167,20 @@ namespace excel_MergePro
                     foreach (DataRow dataRow in dataSetExcel.Tables[0].Rows)
                     {
                         limitCount += 1;
-
-                        DataRow emDT = dataSetExcel.Tables[0].NewRow();
-                        //emDT.ItemArray = dataRow.ItemArray;
+                        temp50RowDT.NewRow();
+                        DataRow desRow = dataSetExcel.Tables[0].NewRow();
                         temp50RowDT.ImportRow(dataRow);
-                        temp50RowDT.Rows[limitCount].ItemArray = dataRow.ItemArray;
-
+                        //DataRow emDT = dataSetExcel.Tables[0].NewRow();
+                        //emDT.ItemArray = dataRow.ItemArray;
+                        object[] ds = new object[dataRow.ItemArray.Length];
+                        temp50RowDT.Rows[limitCount].ItemArray;
+                        //temp50RowDT.Rows.Add(dataRow);
+                        temp50RowDT.ImportRow(desRow);
+                        var drFail = dataSetExcel.Tables[0].Rows[limitCount];
+                        temp50RowDT.ImportRow(drFail);
+                        drFail.ItemArray = dataRow.ItemArray;
+                        //temp50RowDT.Rows[limitCount].ItemArray = dataRow.ItemArray.Clone() as object[];
+                        
                         if (limitCount >= 50)
                             break;
                     }

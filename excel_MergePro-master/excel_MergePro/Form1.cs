@@ -162,34 +162,19 @@ namespace excel_MergePro
                         }
                     });
 
-                    DataTable temp50RowDT = new DataTable();
-                    int limitCount = -1;
+                    DataTable temp50RowDT = dataSetExcel.Tables[0].Clone();
+                    int limitCount = 0;
+
+                    object[] rowArray = new object[13];
                     foreach (DataRow dataRow in dataSetExcel.Tables[0].Rows)
                     {
                         limitCount += 1;
-                        temp50RowDT.NewRow();
-                        DataRow desRow = dataSetExcel.Tables[0].NewRow();
                         temp50RowDT.ImportRow(dataRow);
-                        //DataRow emDT = dataSetExcel.Tables[0].NewRow();
-                        //emDT.ItemArray = dataRow.ItemArray;
-                        object[] ds = new object[dataRow.ItemArray.Length];
-                        temp50RowDT.Rows[limitCount].ItemArray;
-                        //temp50RowDT.Rows.Add(dataRow);
-                        temp50RowDT.ImportRow(desRow);
-                        var drFail = dataSetExcel.Tables[0].Rows[limitCount];
-                        temp50RowDT.ImportRow(drFail);
-                        drFail.ItemArray = dataRow.ItemArray;
-                        //temp50RowDT.Rows[limitCount].ItemArray = dataRow.ItemArray.Clone() as object[];
                         
                         if (limitCount >= 50)
                             break;
                     }
-                    /*
-                    for (int i = 0; i < 50; i++)
-                    {
-                        temp50RowDT.ImportRow(dataSetExcel.Tables[0].Rows[i]);
-                    }
-                    */
+
                     temp50RowDT.TableName = string.Format("dgvE_{0}", fileCount.ToString().PadLeft(2, '0'));
                     dataGridViewsDataSet.Tables.Add(temp50RowDT);
 

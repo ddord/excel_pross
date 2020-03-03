@@ -80,14 +80,14 @@ namespace excel_MergePro
                 s_filepath = openFileDialog.FileName;
                 string s_filename = System.IO.Path.GetFileName(s_filepath);
 
-                excelFileBindings(s_filepath, fileCount, excelListV);
+                excelFileBindings(s_filename, s_filepath, fileCount, excelListV);
 
                 if (!clbAddFileList.Items.Contains(s_filename))
                 {
                     clbAddFileList.Items.Add(System.IO.Path.GetFileName(s_filename));
                     if ((drawPointX % 1400) == 0 && (drawPointX != 0))
-                    { drawPointX = 0; drawPointY += 300; }
-                    else if ((drawPointY % 600) == 0 && (drawPointY != 0))
+                    { drawPointX = 0; drawPointY += 350; }
+                    else if ((drawPointY % 700) == 0 && (drawPointY != 0))
                         drawPointY = 0;
                     excelListV.Location = new Point(drawPointX, drawPointY);
                     pnlMain.Controls.Add(excelListV);
@@ -124,6 +124,19 @@ namespace excel_MergePro
 
         private void btnMergeFile_Click(object sender, EventArgs e)
         {
+            if (clbAddFileList.CheckedItems.Count == 2)
+            {
+                choiceForm choiceForm = new choiceForm();
+                choiceForm.Show();
+            }
+            else if (clbAddFileList.CheckedItems.Count >= 3)
+            {
+
+            }
+            else if(clbAddFileList.CheckedItems.Count == 0)
+                MessageBox.Show("병합 할 파일이 선택 되지않았습니다.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+
             //simpleMergeExcel();
             //choiceForm choiceform = new choiceForm();
             //Excel.Application excelApp = new Excel.Application();
@@ -144,7 +157,7 @@ namespace excel_MergePro
 
         }
 
-        private void excelFileBindings(string filepath, int fileCount, excelListView excelListV)
+        private void excelFileBindings(string filename, string filepath, int fileCount, excelListView excelListV)
         {
 
             DataSet dataSetExcel = null;
@@ -179,6 +192,7 @@ namespace excel_MergePro
                     dataGridViewsDataSet.Tables.Add(temp50RowDT);
 
                     excelListV.ExcelListDT = dataGridViewsDataSet.Tables[fileCount - 1];
+                    excelListV.excelFileName = filename;
                 }
             }
 

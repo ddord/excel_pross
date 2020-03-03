@@ -82,7 +82,7 @@
             // 
             this.pnlMain.Location = new System.Drawing.Point(12, 117);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1400, 620);
+            this.pnlMain.Size = new System.Drawing.Size(1400, 720);
             this.pnlMain.TabIndex = 5;
             // 
             // clbAddFileList
@@ -101,7 +101,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1422, 787);
+            this.ClientSize = new System.Drawing.Size(1422, 850);
             this.Controls.Add(this.clbAddFileList);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.btnMergeFile);

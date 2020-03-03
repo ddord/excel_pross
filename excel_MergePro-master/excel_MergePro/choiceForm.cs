@@ -23,6 +23,7 @@ namespace excel_MergePro
 
         private void choiceForm_Load(object sender, EventArgs e)
         {
+            /*
             listChoice choiceList = new listChoice();
             choiceList.Visible = true;
             excelApp = new Microsoft.Office.Interop.Excel.Application();
@@ -30,7 +31,10 @@ namespace excel_MergePro
             choiceList.excelMerge2 = excelApp.Workbooks.Open(receiveFile[1], null, true);
             this.pnlMain.Controls.Add(choiceList);
             choiceList.Dock = System.Windows.Forms.DockStyle.Fill;
+            */
+
             
+
         }
 
     }

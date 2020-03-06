@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CommonCode;
 
 namespace excel_MergePro
 {
@@ -17,12 +18,30 @@ namespace excel_MergePro
             InitializeComponent();
         }
 
-        public string[] receiveFile = new string[2];
+        public List<string> receiveFile = new List<string>();
         private Microsoft.Office.Interop.Excel.Application excelApp = null;
 
 
         private void choiceForm_Load(object sender, EventArgs e)
         {
+            Common common = new Common();
+            
+            switch (common.choiceForm_pnlValue)
+            {
+                case "table_two":
+                    JoinOptionChoice joinOptionChoice = new JoinOptionChoice();
+                    joinOptionChoice.Visible = true;
+                    joinOptionChoice.excelMerge1 = excelApp.Workbooks.Open(receiveFile[0], null, true);
+                    joinOptionChoice.excelMerge2 = excelApp.Workbooks.Open(receiveFile[1], null, true);
+                    this.pnlMain.Controls.Add(joinOptionChoice);
+                    joinOptionChoice.Dock = System.Windows.Forms.DockStyle.Fill;
+                    break;
+                case "table_mul":
+
+                    break;                    
+            }
+            
+            
             /*
             listChoice choiceList = new listChoice();
             choiceList.Visible = true;

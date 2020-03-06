@@ -8,5 +8,7 @@ namespace CommonCode
 {
     public class Common
     {
+        public string choiceForm_pnlValue { get; set; }
+
     }
 }

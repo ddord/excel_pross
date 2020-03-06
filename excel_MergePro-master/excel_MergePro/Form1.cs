@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.IO;
 using ExcelDataReader;
+using CommonCode;
 
 namespace excel_MergePro
 {
@@ -126,8 +127,13 @@ namespace excel_MergePro
         {
             if (clbAddFileList.CheckedItems.Count == 2)
             {
+                Common common = new Common();
+                common.choiceForm_pnlValue = "table_two";
                 choiceForm choiceForm = new choiceForm();
-                choiceForm.Show();
+                choiceForm.receiveFile.Clear();
+                choiceForm.receiveFile.Add(clbAddFileList.CheckedItems[0].ToString());
+                choiceForm.receiveFile.Add(clbAddFileList.CheckedItems[1].ToString());
+                choiceForm.ShowDialog();
             }
             else if (clbAddFileList.CheckedItems.Count >= 3)
             {

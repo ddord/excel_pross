@@ -11,26 +11,36 @@ using CommonCode;
 
 namespace excel_MergePro
 {
-    public partial class choiceForm : Form
+    public partial class choiceForm : Form, IMyInterface
     {
+        private IMyInterface frm = null;
+        public List<string> receiveFile = new List<string>();
+        private Microsoft.Office.Interop.Excel.Application excelApp = null;
+        //public string choiceForm_pnlValue { get; set; }
+
         public choiceForm()
         {
             InitializeComponent();
+            //this.frm = frm;
         }
+        
+        public string choicechoiceForm_pnlValue { get; set; }
 
-        public List<string> receiveFile = new List<string>();
-        private Microsoft.Office.Interop.Excel.Application excelApp = null;
-
-
+        string IMyInterface.choiceForm_pnlValue
+        {
+            get { return this.choicechoiceForm_pnlValue; }
+            set { this.choicechoiceForm_pnlValue = value; }
+        }
+        
         private void choiceForm_Load(object sender, EventArgs e)
         {
-            Common common = new Common();
             
-            switch (common.choiceForm_pnlValue)
+            switch (choicechoiceForm_pnlValue)
             {
                 case "table_two":
                     JoinOptionChoice joinOptionChoice = new JoinOptionChoice();
                     joinOptionChoice.Visible = true;
+                    excelApp = new Microsoft.Office.Interop.Excel.Application();
                     joinOptionChoice.excelMerge1 = excelApp.Workbooks.Open(receiveFile[0], null, true);
                     joinOptionChoice.excelMerge2 = excelApp.Workbooks.Open(receiveFile[1], null, true);
                     this.pnlMain.Controls.Add(joinOptionChoice);

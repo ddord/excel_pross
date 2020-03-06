@@ -8,7 +8,13 @@ namespace CommonCode
 {
     public class Common
     {
-        public string choiceForm_pnlValue { get; set; }
-
+        
     }
+
+    public interface IMyInterface
+    {
+        string choiceForm_pnlValue { get; set; }
+    }
+
+
 }

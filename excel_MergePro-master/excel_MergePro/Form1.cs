@@ -127,9 +127,9 @@ namespace excel_MergePro
         {
             if (clbAddFileList.CheckedItems.Count == 2)
             {
-                Common common = new Common();
-                common.choiceForm_pnlValue = "table_two";
+
                 choiceForm choiceForm = new choiceForm();
+                choiceForm.choicechoiceForm_pnlValue = "table_two";
                 choiceForm.receiveFile.Clear();
                 choiceForm.receiveFile.Add(clbAddFileList.CheckedItems[0].ToString());
                 choiceForm.receiveFile.Add(clbAddFileList.CheckedItems[1].ToString());

@@ -112,7 +112,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.SystemColors.Desktop;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Controls.Add(this.btnJoinTable);
             this.Controls.Add(this.lblTableKey2);
             this.Controls.Add(this.lblTableKey1);
@@ -121,7 +122,7 @@
             this.Controls.Add(this.lblStandard);
             this.Controls.Add(this.cbSelectTable);
             this.Name = "JoinOptionChoice";
-            this.Size = new System.Drawing.Size(402, 325);
+            this.Size = new System.Drawing.Size(402, 321);
             this.Load += new System.EventHandler(this.JoinOptionChoice_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -26,22 +26,22 @@ namespace excel_MergePro
         private void JoinOptionChoice_Load(object sender, EventArgs e)
         {
             foreach (string TableName in cbList)
-                cbSelectTable.Items.Add(TableName);
-            Worksheet = excelMerge1.Sheets[1];
+                cbSelectTable.Items.Add(System.IO.Path.GetFileName(TableName));
+
+            excelList_load(excelMerge1, clbJoinFile1);
+            excelList_load(excelMerge2, clbJoinFile2);
+        }
+
+        private void excelList_load (Excel.Workbook workbook, CheckedListBox ckListBox)
+        {
+            Worksheet = workbook.Sheets[1];
 
             int headerRow = Worksheet.UsedRange.Columns.ListHeaderRows;
             int columnsCount = Worksheet.UsedRange.Columns.Count;
             for (int i = 1; i <= columnsCount; i++)
             {
-                clbJoinFile1.Items.Add(Worksheet.Cells[headerRow, i].Value.ToString());
+                ckListBox.Items.Add(Worksheet.Cells[headerRow, i].Value.ToString());
             }
-             
-            
-        }
-
-        private void excelList_load (Excel.Workbook workbook, CheckedListBox ckListBox)
-        {
-
         }
     }
 }

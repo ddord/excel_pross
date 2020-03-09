@@ -35,7 +35,7 @@
             // 
             this.pnlMain.Location = new System.Drawing.Point(12, 12);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(446, 330);
+            this.pnlMain.Size = new System.Drawing.Size(410, 330);
             this.pnlMain.TabIndex = 0;
             // 
             // choiceForm
@@ -43,7 +43,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(468, 354);
+            this.ClientSize = new System.Drawing.Size(429, 354);
             this.Controls.Add(this.pnlMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "choiceForm";

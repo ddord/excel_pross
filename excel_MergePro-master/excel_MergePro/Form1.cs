@@ -32,6 +32,7 @@ namespace excel_MergePro
         private string s_filepath = "";
         private DataSet dataGridViewsDataSet = new DataSet();
         private List<DataGridView> dataGridViewsList = new List<DataGridView>();
+        private Dictionary<string, string> dicfullpath = new Dictionary<string, string>();
 
 
         public DataSet MainFormDataGridViesDataSet { get { return dataGridViewsDataSet; } }
@@ -80,12 +81,14 @@ namespace excel_MergePro
                 */
                 s_filepath = openFileDialog.FileName;
                 string s_filename = System.IO.Path.GetFileName(s_filepath);
-
+                
                 excelFileBindings(s_filename, s_filepath, fileCount, excelListV);
 
                 if (!clbAddFileList.Items.Contains(s_filename))
                 {
-                    clbAddFileList.Items.Add(System.IO.Path.GetFileName(s_filename));
+                    clbAddFileList.Items.Add(s_filename);
+                    dicfullpath.Add(s_filename, s_filepath);
+                                        
                     if ((drawPointX % 1400) == 0 && (drawPointX != 0))
                     { drawPointX = 0; drawPointY += 350; }
                     else if ((drawPointY % 700) == 0 && (drawPointY != 0))
@@ -127,12 +130,12 @@ namespace excel_MergePro
         {
             if (clbAddFileList.CheckedItems.Count == 2)
             {
-
                 choiceForm choiceForm = new choiceForm();
                 choiceForm.choicechoiceForm_pnlValue = "table_two";
                 choiceForm.receiveFile.Clear();
-                choiceForm.receiveFile.Add(clbAddFileList.CheckedItems[0].ToString());
-                choiceForm.receiveFile.Add(clbAddFileList.CheckedItems[1].ToString());
+                choiceForm.receiveFile.Add(dicfullpath[clbAddFileList.CheckedItems[0].ToString()]);
+                choiceForm.receiveFile.Add(dicfullpath[clbAddFileList.CheckedItems[1].ToString()]);
+                choiceForm.StartPosition = FormStartPosition.CenterScreen;
                 choiceForm.ShowDialog();
             }
             else if (clbAddFileList.CheckedItems.Count >= 3)

@@ -45,6 +45,7 @@ namespace excel_MergePro
                     joinOptionChoice.excelMerge2 = excelApp.Workbooks.Open(receiveFile[1], null, true);
                     this.pnlMain.Controls.Add(joinOptionChoice);
                     joinOptionChoice.Dock = System.Windows.Forms.DockStyle.Fill;
+                    joinOptionChoice.cbList = receiveFile;
                     break;
                 case "table_mul":
 
@@ -65,6 +66,8 @@ namespace excel_MergePro
             
 
         }
+
+        
 
     }
 }

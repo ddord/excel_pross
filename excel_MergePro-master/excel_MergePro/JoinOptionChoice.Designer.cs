@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbSelectTable = new System.Windows.Forms.ComboBox();
             this.lblStandard = new System.Windows.Forms.Label();
             this.clbJoinFile2 = new System.Windows.Forms.CheckedListBox();
             this.clbJoinFile1 = new System.Windows.Forms.CheckedListBox();
@@ -37,13 +37,13 @@
             this.btnJoinTable = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // comboBox1
+            // cbSelectTable
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(153, 17);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(133, 21);
-            this.comboBox1.TabIndex = 0;
+            this.cbSelectTable.FormattingEnabled = true;
+            this.cbSelectTable.Location = new System.Drawing.Point(153, 17);
+            this.cbSelectTable.Name = "cbSelectTable";
+            this.cbSelectTable.Size = new System.Drawing.Size(133, 21);
+            this.cbSelectTable.TabIndex = 0;
             // 
             // lblStandard
             // 
@@ -119,9 +119,10 @@
             this.Controls.Add(this.clbJoinFile2);
             this.Controls.Add(this.clbJoinFile1);
             this.Controls.Add(this.lblStandard);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cbSelectTable);
             this.Name = "JoinOptionChoice";
             this.Size = new System.Drawing.Size(402, 325);
+            this.Load += new System.EventHandler(this.JoinOptionChoice_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,7 +130,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbSelectTable;
         private System.Windows.Forms.Label lblStandard;
         private System.Windows.Forms.CheckedListBox clbJoinFile2;
         private System.Windows.Forms.CheckedListBox clbJoinFile1;

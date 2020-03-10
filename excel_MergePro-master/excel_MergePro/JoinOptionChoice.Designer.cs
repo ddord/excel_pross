@@ -39,22 +39,24 @@
             // 
             // cbSelectTable
             // 
+            this.cbSelectTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSelectTable.DropDownWidth = 153;
             this.cbSelectTable.FormattingEnabled = true;
             this.cbSelectTable.Location = new System.Drawing.Point(153, 17);
             this.cbSelectTable.Name = "cbSelectTable";
-            this.cbSelectTable.Size = new System.Drawing.Size(133, 21);
+            this.cbSelectTable.Size = new System.Drawing.Size(153, 21);
             this.cbSelectTable.TabIndex = 0;
             // 
             // lblStandard
             // 
             this.lblStandard.AutoSize = true;
             this.lblStandard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStandard.ForeColor = System.Drawing.Color.White;
-            this.lblStandard.Location = new System.Drawing.Point(68, 19);
+            this.lblStandard.ForeColor = System.Drawing.Color.Black;
+            this.lblStandard.Location = new System.Drawing.Point(45, 18);
             this.lblStandard.Name = "lblStandard";
-            this.lblStandard.Size = new System.Drawing.Size(76, 16);
+            this.lblStandard.Size = new System.Drawing.Size(102, 16);
             this.lblStandard.TabIndex = 1;
-            this.lblStandard.Text = "기준 테이블 -";
+            this.lblStandard.Text = "병합 기준 테이블 -";
             // 
             // clbJoinFile2
             // 
@@ -78,7 +80,7 @@
             // 
             this.lblTableKey1.AutoSize = true;
             this.lblTableKey1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTableKey1.ForeColor = System.Drawing.Color.White;
+            this.lblTableKey1.ForeColor = System.Drawing.Color.Black;
             this.lblTableKey1.Location = new System.Drawing.Point(3, 62);
             this.lblTableKey1.Name = "lblTableKey1";
             this.lblTableKey1.Size = new System.Drawing.Size(127, 16);
@@ -89,7 +91,7 @@
             // 
             this.lblTableKey2.AutoSize = true;
             this.lblTableKey2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTableKey2.ForeColor = System.Drawing.Color.White;
+            this.lblTableKey2.ForeColor = System.Drawing.Color.Black;
             this.lblTableKey2.Location = new System.Drawing.Point(210, 62);
             this.lblTableKey2.Name = "lblTableKey2";
             this.lblTableKey2.Size = new System.Drawing.Size(127, 16);
@@ -107,13 +109,13 @@
             this.btnJoinTable.TabIndex = 7;
             this.btnJoinTable.Text = "병합";
             this.btnJoinTable.UseVisualStyleBackColor = false;
+            this.btnJoinTable.Click += new System.EventHandler(this.btnJoinTable_Click);
             // 
             // JoinOptionChoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Controls.Add(this.btnJoinTable);
             this.Controls.Add(this.lblTableKey2);
             this.Controls.Add(this.lblTableKey1);
@@ -122,7 +124,7 @@
             this.Controls.Add(this.lblStandard);
             this.Controls.Add(this.cbSelectTable);
             this.Name = "JoinOptionChoice";
-            this.Size = new System.Drawing.Size(402, 321);
+            this.Size = new System.Drawing.Size(405, 325);
             this.Load += new System.EventHandler(this.JoinOptionChoice_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

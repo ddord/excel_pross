@@ -44,7 +44,7 @@ namespace excel_MergePro
                     joinOptionChoice.excelMerge1 = excelApp.Workbooks.Open(receiveFile[0], null, true);
                     joinOptionChoice.excelMerge2 = excelApp.Workbooks.Open(receiveFile[1], null, true);
                     joinOptionChoice.cbList = receiveFile;
-                    joinOptionChoice.Dock = System.Windows.Forms.DockStyle.Fill;
+                    //joinOptionChoice.Dock = System.Windows.Forms.DockStyle.Fill;
                     this.pnlMain.Controls.Add(joinOptionChoice);
                     
                     break;

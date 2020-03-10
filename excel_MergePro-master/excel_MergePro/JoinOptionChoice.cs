@@ -43,5 +43,15 @@ namespace excel_MergePro
                 ckListBox.Items.Add(Worksheet.Cells[headerRow, i].Value.ToString());
             }
         }
+
+        private void btnJoinTable_Click(object sender, EventArgs e)
+        {
+            if (cbSelectTable.SelectedItem.ToString() == "")
+                MessageBox.Show("병합 기준 테이블을 선택해주시기 바랍니다.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (clbJoinFile1.SelectedItems.Count == 0)
+                MessageBox.Show("1번째 병합 테이블의 키값을 1개 선택해주시기 바랍니다.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (clbJoinFile2.SelectedItems.Count == 0)
+                MessageBox.Show("2번째 병합 테이블의 키값을 1개 선택해주시기 바랍니다.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 }

@@ -109,7 +109,7 @@
             this.Controls.Add(this.txb_OpenFIle2);
             this.Controls.Add(this.txb_OpenFIle1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ResumeLayout(false);

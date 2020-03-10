@@ -30,6 +30,7 @@ namespace excel_MergePro
         private Excel.Workbook exlWb = null;
         private Excel.Worksheet exlSheet = null;
         private string s_filepath = "";
+        private DataSet excelFilesDataSet = new DataSet();
         private DataSet dataGridViewsDataSet = new DataSet();
         private List<DataGridView> dataGridViewsList = new List<DataGridView>();
         private Dictionary<string, string> dicfullpath = new Dictionary<string, string>();
@@ -40,14 +41,6 @@ namespace excel_MergePro
         public Form1()
         {
             InitializeComponent();
-            dataGridViewsList = new List<DataGridView>();
-            /*
-            dataGridViewsDataSet = new DataSet();
-            for (int i = 1; i < 9; i++)
-            {
-                dataGridViewsDataSet.Tables.Add(string.Format("dgvE_{0}", i.ToString().PadLeft(2,'0')));
-            }
-            */
         }
 
         private void btnOpenFileClick(object sender, EventArgs args)
@@ -102,8 +95,7 @@ namespace excel_MergePro
                     MessageBox.Show("같은 이름에 파일명이 존재합니다.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }
-
-            
+                        
             /*
             object missing = System.Reflection.Missing.Value;
             excelApp.Visible = false;
@@ -171,7 +163,7 @@ namespace excel_MergePro
 
             DataSet dataSetExcel = null;
             excelApp = new Excel.Application();
-
+            
             using (var stream = File.Open(filepath, FileMode.Open, FileAccess.Read))
             {
                 using (var excelreader = ExcelReaderFactory.CreateReader(stream))
@@ -184,7 +176,17 @@ namespace excel_MergePro
                         }
                     });
 
+                    dataSetExcel.Tables[0].TableName = string.Format("ExFiles_{0}", fileCount.ToString().PadLeft(2, '0'));
+                    excelFilesDataSet.Tables.Add(dataSetExcel.Tables[0].Copy());
+
                     DataTable temp50RowDT = dataSetExcel.Tables[0].Clone();
+                    temp50RowDT.TableName = string.Format("dgvE_{0}", fileCount.ToString().PadLeft(2, '0'));
+                    dataGridViewsDataSet.Tables.Add(temp50RowDT);
+
+                    //Common common = new Common();
+                    //common.dataSetExcelFiles = new DataSet();
+                    //common.dataSetExcelFiles.Tables.Add(temp50RowDT.Clone());
+
                     int limitCount = 0;
 
                     object[] rowArray = new object[13];
@@ -196,9 +198,6 @@ namespace excel_MergePro
                         if (limitCount >= 50)
                             break;
                     }
-
-                    temp50RowDT.TableName = string.Format("dgvE_{0}", fileCount.ToString().PadLeft(2, '0'));
-                    dataGridViewsDataSet.Tables.Add(temp50RowDT);
 
                     excelListV.ExcelListDT = dataGridViewsDataSet.Tables[fileCount - 1];
                     excelListV.excelFileName = filename;

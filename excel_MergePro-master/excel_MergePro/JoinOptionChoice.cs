@@ -52,6 +52,12 @@ namespace excel_MergePro
                 MessageBox.Show("1번째 병합 테이블의 키값을 1개 선택해주시기 바랍니다.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else if (clbJoinFile2.SelectedItems.Count == 0)
                 MessageBox.Show("2번째 병합 테이블의 키값을 1개 선택해주시기 바랍니다.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                string mergeCase = "";
+                Dictionary<int, string> keyValues = new Dictionary<int, string>();
+                
+            }
         }
     }
 }

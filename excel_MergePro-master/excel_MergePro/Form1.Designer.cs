@@ -40,7 +40,7 @@
             // 
             this.txb_OpenFIle1.BackColor = System.Drawing.Color.White;
             this.txb_OpenFIle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txb_OpenFIle1.ForeColor = System.Drawing.Color.Silver;
+            this.txb_OpenFIle1.ForeColor = System.Drawing.Color.Black;
             this.txb_OpenFIle1.Location = new System.Drawing.Point(12, 12);
             this.txb_OpenFIle1.Name = "txb_OpenFIle1";
             this.txb_OpenFIle1.Size = new System.Drawing.Size(596, 22);
@@ -51,7 +51,7 @@
             // txb_OpenFIle2
             // 
             this.txb_OpenFIle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txb_OpenFIle2.ForeColor = System.Drawing.Color.Silver;
+            this.txb_OpenFIle2.ForeColor = System.Drawing.Color.Black;
             this.txb_OpenFIle2.Location = new System.Drawing.Point(12, 69);
             this.txb_OpenFIle2.Name = "txb_OpenFIle2";
             this.txb_OpenFIle2.Size = new System.Drawing.Size(596, 22);

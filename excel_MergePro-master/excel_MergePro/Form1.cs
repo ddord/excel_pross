@@ -58,7 +58,7 @@ namespace excel_MergePro
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 fileCount += 1;
-                /*
+                string s_filename = System.IO.Path.GetFileName(s_filepath);
                 switch (fileCount)
                 {
                     case 1:
@@ -71,7 +71,8 @@ namespace excel_MergePro
                         fileCount = 0;
                         break;
                 }
-                */
+                /*
+               
                 s_filepath = openFileDialog.FileName;
                 string s_filename = System.IO.Path.GetFileName(s_filepath);
                 
@@ -93,9 +94,9 @@ namespace excel_MergePro
                 }                   
                 else
                     MessageBox.Show("같은 이름에 파일명이 존재합니다.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                     */
             }
-                        
+
             /*
             object missing = System.Reflection.Missing.Value;
             excelApp.Visible = false;
@@ -120,6 +121,7 @@ namespace excel_MergePro
 
         private void btnMergeFile_Click(object sender, EventArgs e)
         {
+            /*
             if (clbAddFileList.CheckedItems.Count == 2)
             {
                 choiceForm choiceForm = new choiceForm();
@@ -136,21 +138,25 @@ namespace excel_MergePro
             }
             else if(clbAddFileList.CheckedItems.Count == 0)
                 MessageBox.Show("병합 할 파일이 선택 되지않았습니다.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                */
 
             //simpleMergeExcel();
-            //choiceForm choiceform = new choiceForm();
-            //Excel.Application excelApp = new Excel.Application();
-            //choiceform.receiveFile[0] = txb_OpenFIle1.Text;
-            //choiceform.receiveFile[1] = txb_OpenFIle2.Text;
-            //choiceform.ShowDialog();
-            //Excel.Workbook excelMerge1 = null;
-            //Excel.Workbook excelMerge2 = null;
+            MessageBox.Show("병합 완료.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            
+            /*
+            choiceForm choiceform = new choiceForm();
+            Excel.Application excelApp = new Excel.Application();
+            choiceform.receiveFile[0] = txb_OpenFIle1.Text;
+            choiceform.receiveFile[1] = txb_OpenFIle2.Text;
+            choiceform.ShowDialog();
+            Excel.Workbook excelMerge1 = null;
+            Excel.Workbook excelMerge2 = null;
 
-            //excelMerge1 = excelApp.Workbooks.Open(txb_OpenFIle1.Text, null, true);
-            //excelMerge2 = excelApp.Workbooks.Open(txb_OpenFIle2.Text, null, true);
+            excelMerge1 = excelApp.Workbooks.Open(txb_OpenFIle1.Text, null, true);
+            excelMerge2 = excelApp.Workbooks.Open(txb_OpenFIle2.Text, null, true);
 
-            //Excel.Worksheet excelSheet = null;
+            Excel.Worksheet excelSheet = null;
+            */
         }
 
         private void txb_OpenFIle1_TextChanged(object sender, EventArgs e)
@@ -240,7 +246,7 @@ namespace excel_MergePro
 
            wbook.SaveAs("D:\\03_dor_works\\LocalApp\\001\\test_data\\test11.xlsx");
         }
-
+        
         public static DataTable ReadAsDataTable(string fileName)
         {
            DataTable dataTable = new DataTable();

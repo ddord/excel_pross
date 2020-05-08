@@ -31,7 +31,8 @@ namespace excel_MergePro
             this.pnlMain.Controls.Add(choiceList);
             choiceList.Dock = System.Windows.Forms.DockStyle.Fill;
             //test code
-            
+            //test code2
+
         }
 
     }

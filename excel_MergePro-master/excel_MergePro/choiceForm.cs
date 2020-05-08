@@ -30,6 +30,7 @@ namespace excel_MergePro
             choiceList.excelMerge2 = excelApp.Workbooks.Open(receiveFile[1], null, true);
             this.pnlMain.Controls.Add(choiceList);
             choiceList.Dock = System.Windows.Forms.DockStyle.Fill;
+            //test code
             
         }
 

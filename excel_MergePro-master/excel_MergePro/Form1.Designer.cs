@@ -40,7 +40,7 @@
             // 
             this.txb_OpenFIle1.BackColor = System.Drawing.Color.White;
             this.txb_OpenFIle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txb_OpenFIle1.ForeColor = System.Drawing.Color.Silver;
+            this.txb_OpenFIle1.ForeColor = System.Drawing.Color.Black;
             this.txb_OpenFIle1.Location = new System.Drawing.Point(12, 12);
             this.txb_OpenFIle1.Name = "txb_OpenFIle1";
             this.txb_OpenFIle1.Size = new System.Drawing.Size(596, 22);
@@ -51,7 +51,7 @@
             // txb_OpenFIle2
             // 
             this.txb_OpenFIle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txb_OpenFIle2.ForeColor = System.Drawing.Color.Silver;
+            this.txb_OpenFIle2.ForeColor = System.Drawing.Color.Black;
             this.txb_OpenFIle2.Location = new System.Drawing.Point(12, 69);
             this.txb_OpenFIle2.Name = "txb_OpenFIle2";
             this.txb_OpenFIle2.Size = new System.Drawing.Size(596, 22);
@@ -82,7 +82,7 @@
             // 
             this.pnlMain.Location = new System.Drawing.Point(12, 117);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1400, 620);
+            this.pnlMain.Size = new System.Drawing.Size(1400, 720);
             this.pnlMain.TabIndex = 5;
             // 
             // clbAddFileList
@@ -101,7 +101,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1422, 787);
+            this.ClientSize = new System.Drawing.Size(1422, 850);
             this.Controls.Add(this.clbAddFileList);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.btnMergeFile);
@@ -109,7 +109,7 @@
             this.Controls.Add(this.txb_OpenFIle2);
             this.Controls.Add(this.txb_OpenFIle1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ResumeLayout(false);

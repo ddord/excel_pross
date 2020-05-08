@@ -1,6 +1,6 @@
 ﻿namespace excel_MergePro
 {
-    partial class choiceForm
+    partial class OptionChoice
     {
         /// <summary>
         /// Required designer variable.
@@ -28,33 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlMain = new System.Windows.Forms.Panel();
+            this.pnlOptionMain = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // pnlMain
+            // pnlOptionMain
             // 
-            this.pnlMain.Location = new System.Drawing.Point(12, 12);
-            this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(410, 330);
-            this.pnlMain.TabIndex = 0;
+            this.pnlOptionMain.Location = new System.Drawing.Point(13, 13);
+            this.pnlOptionMain.Name = "pnlOptionMain";
+            this.pnlOptionMain.Size = new System.Drawing.Size(669, 415);
+            this.pnlOptionMain.TabIndex = 0;
             // 
-            // choiceForm
+            // OptionChoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(429, 354);
-            this.Controls.Add(this.pnlMain);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "choiceForm";
-            this.Text = "choiceForm";
-            this.Load += new System.EventHandler(this.choiceForm_Load);
+            this.BackColor = System.Drawing.Color.Black;
+            this.ClientSize = new System.Drawing.Size(694, 440);
+            this.Controls.Add(this.pnlOptionMain);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Name = "OptionChoice";
+            this.Text = "OptionChoice";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel pnlMain;
+        private System.Windows.Forms.Panel pnlOptionMain;
     }
 }

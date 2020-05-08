@@ -93,11 +93,23 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="JoinOptionChoice.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JoinOptionChoice.Designer.cs">
+      <DependentUpon>JoinOptionChoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="listChoice.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="listChoice.Designer.cs">
       <DependentUpon>listChoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionChoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionChoice.Designer.cs">
+      <DependentUpon>OptionChoice.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,8 +122,14 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="JoinOptionChoice.resx">
+      <DependentUpon>JoinOptionChoice.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="listChoice.resx">
       <DependentUpon>listChoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionChoice.resx">
+      <DependentUpon>OptionChoice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -155,6 +173,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonCode\CommonCode.csproj">
+      <Project>{87dd331a-758d-4190-8ffb-ceedf43fd299}</Project>
+      <Name>CommonCode</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

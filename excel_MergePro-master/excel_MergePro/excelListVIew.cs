@@ -13,6 +13,7 @@ namespace excel_MergePro
     public partial class excelListView : UserControl
     {
         public DataTable ExcelListDT = new DataTable();
+        public string excelFileName = "";
 
         public excelListView()
         {
@@ -29,6 +30,7 @@ namespace excel_MergePro
         private void excelListView_Load(object sender, EventArgs e)
         {
             dgvExcelList.DataSource = ExcelListDT;
+            lblExFileName.Text = excelFileName;
         }
     }
 }

@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.IO;
 using ExcelDataReader;
+using CommonCode;
 
 namespace excel_MergePro
 {
@@ -29,8 +30,10 @@ namespace excel_MergePro
         private Excel.Workbook exlWb = null;
         private Excel.Worksheet exlSheet = null;
         private string s_filepath = "";
+        private DataSet excelFilesDataSet = new DataSet();
         private DataSet dataGridViewsDataSet = new DataSet();
         private List<DataGridView> dataGridViewsList = new List<DataGridView>();
+        private Dictionary<string, string> dicfullpath = new Dictionary<string, string>();
 
 
         public DataSet MainFormDataGridViesDataSet { get { return dataGridViewsDataSet; } }
@@ -38,14 +41,6 @@ namespace excel_MergePro
         public Form1()
         {
             InitializeComponent();
-            dataGridViewsList = new List<DataGridView>();
-            /*
-            dataGridViewsDataSet = new DataSet();
-            for (int i = 1; i < 9; i++)
-            {
-                dataGridViewsDataSet.Tables.Add(string.Format("dgvE_{0}", i.ToString().PadLeft(2,'0')));
-            }
-            */
         }
 
         private void btnOpenFileClick(object sender, EventArgs args)
@@ -63,7 +58,7 @@ namespace excel_MergePro
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 fileCount += 1;
-                /*
+                string s_filename = System.IO.Path.GetFileName(s_filepath);
                 switch (fileCount)
                 {
                     case 1:
@@ -76,18 +71,21 @@ namespace excel_MergePro
                         fileCount = 0;
                         break;
                 }
-                */
+                /*
+               
                 s_filepath = openFileDialog.FileName;
                 string s_filename = System.IO.Path.GetFileName(s_filepath);
-
-                excelFileBindings(s_filepath, fileCount, excelListV);
+                
+                excelFileBindings(s_filename, s_filepath, fileCount, excelListV);
 
                 if (!clbAddFileList.Items.Contains(s_filename))
                 {
-                    clbAddFileList.Items.Add(System.IO.Path.GetFileName(s_filename));
+                    clbAddFileList.Items.Add(s_filename);
+                    dicfullpath.Add(s_filename, s_filepath);
+                                        
                     if ((drawPointX % 1400) == 0 && (drawPointX != 0))
-                    { drawPointX = 0; drawPointY += 300; }
-                    else if ((drawPointY % 600) == 0 && (drawPointY != 0))
+                    { drawPointX = 0; drawPointY += 350; }
+                    else if ((drawPointY % 700) == 0 && (drawPointY != 0))
                         drawPointY = 0;
                     excelListV.Location = new Point(drawPointX, drawPointY);
                     pnlMain.Controls.Add(excelListV);
@@ -96,10 +94,9 @@ namespace excel_MergePro
                 }                   
                 else
                     MessageBox.Show("같은 이름에 파일명이 존재합니다.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                     */
             }
 
-            
             /*
             object missing = System.Reflection.Missing.Value;
             excelApp.Visible = false;
@@ -124,19 +121,42 @@ namespace excel_MergePro
 
         private void btnMergeFile_Click(object sender, EventArgs e)
         {
+            /*
+            if (clbAddFileList.CheckedItems.Count == 2)
+            {
+                choiceForm choiceForm = new choiceForm();
+                choiceForm.choicechoiceForm_pnlValue = "table_two";
+                choiceForm.receiveFile.Clear();
+                choiceForm.receiveFile.Add(dicfullpath[clbAddFileList.CheckedItems[0].ToString()]);
+                choiceForm.receiveFile.Add(dicfullpath[clbAddFileList.CheckedItems[1].ToString()]);
+                choiceForm.StartPosition = FormStartPosition.CenterScreen;
+                choiceForm.ShowDialog();
+            }
+            else if (clbAddFileList.CheckedItems.Count >= 3)
+            {
+
+            }
+            else if(clbAddFileList.CheckedItems.Count == 0)
+                MessageBox.Show("병합 할 파일이 선택 되지않았습니다.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                */
+
             //simpleMergeExcel();
-            //choiceForm choiceform = new choiceForm();
-            //Excel.Application excelApp = new Excel.Application();
-            //choiceform.receiveFile[0] = txb_OpenFIle1.Text;
-            //choiceform.receiveFile[1] = txb_OpenFIle2.Text;
-            //choiceform.ShowDialog();
-            //Excel.Workbook excelMerge1 = null;
-            //Excel.Workbook excelMerge2 = null;
+            MessageBox.Show("병합 완료.", "확인 바랍니다.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            
+            /*
+            choiceForm choiceform = new choiceForm();
+            Excel.Application excelApp = new Excel.Application();
+            choiceform.receiveFile[0] = txb_OpenFIle1.Text;
+            choiceform.receiveFile[1] = txb_OpenFIle2.Text;
+            choiceform.ShowDialog();
+            Excel.Workbook excelMerge1 = null;
+            Excel.Workbook excelMerge2 = null;
 
-            //excelMerge1 = excelApp.Workbooks.Open(txb_OpenFIle1.Text, null, true);
-            //excelMerge2 = excelApp.Workbooks.Open(txb_OpenFIle2.Text, null, true);
+            excelMerge1 = excelApp.Workbooks.Open(txb_OpenFIle1.Text, null, true);
+            excelMerge2 = excelApp.Workbooks.Open(txb_OpenFIle2.Text, null, true);
 
-            //Excel.Worksheet excelSheet = null;
+            Excel.Worksheet excelSheet = null;
+            */
         }
 
         private void txb_OpenFIle1_TextChanged(object sender, EventArgs e)
@@ -144,12 +164,12 @@ namespace excel_MergePro
 
         }
 
-        private void excelFileBindings(string filepath, int fileCount, excelListView excelListV)
+        private void excelFileBindings(string filename, string filepath, int fileCount, excelListView excelListV)
         {
 
             DataSet dataSetExcel = null;
             excelApp = new Excel.Application();
-
+            
             using (var stream = File.Open(filepath, FileMode.Open, FileAccess.Read))
             {
                 using (var excelreader = ExcelReaderFactory.CreateReader(stream))
@@ -162,7 +182,17 @@ namespace excel_MergePro
                         }
                     });
 
+                    dataSetExcel.Tables[0].TableName = string.Format("ExFiles_{0}", fileCount.ToString().PadLeft(2, '0'));
+                    excelFilesDataSet.Tables.Add(dataSetExcel.Tables[0].Copy());
+
                     DataTable temp50RowDT = dataSetExcel.Tables[0].Clone();
+                    temp50RowDT.TableName = string.Format("dgvE_{0}", fileCount.ToString().PadLeft(2, '0'));
+                    dataGridViewsDataSet.Tables.Add(temp50RowDT);
+
+                    //Common common = new Common();
+                    //common.dataSetExcelFiles = new DataSet();
+                    //common.dataSetExcelFiles.Tables.Add(temp50RowDT.Clone());
+
                     int limitCount = 0;
 
                     object[] rowArray = new object[13];
@@ -175,10 +205,8 @@ namespace excel_MergePro
                             break;
                     }
 
-                    temp50RowDT.TableName = string.Format("dgvE_{0}", fileCount.ToString().PadLeft(2, '0'));
-                    dataGridViewsDataSet.Tables.Add(temp50RowDT);
-
                     excelListV.ExcelListDT = dataGridViewsDataSet.Tables[fileCount - 1];
+                    excelListV.excelFileName = filename;
                 }
             }
 
@@ -218,7 +246,7 @@ namespace excel_MergePro
 
            wbook.SaveAs("D:\\03_dor_works\\LocalApp\\001\\test_data\\test11.xlsx");
         }
-
+        
         public static DataTable ReadAsDataTable(string fileName)
         {
            DataTable dataTable = new DataTable();
